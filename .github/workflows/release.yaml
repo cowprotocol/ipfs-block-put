@@ -1,0 +1,20 @@
+name: release
+on:
+  release:
+    types: [published]
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
+      - run: sudo apt-get -qq -y install musl-dev
+      # Cargo expects a different name for the binary.
+      - run: sudo ln -s /usr/bin/x86_64-linux-musl-gcc /usr/bin/musl-gcc
+      - run: rustup target add x86_64-unknown-linux-musl
+      - run: cargo build --target=x86_64-unknown-linux-musl --release
+      - run: gh release upload $GITHUB_REF_NAME target/x86_64-unknown-linux-musl/release/ipfs-block-put
