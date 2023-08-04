@@ -18,15 +18,15 @@ async fn main() {
 #[derive(Parser, Debug)]
 struct Args {
     /// URL to the control API of the IPFS node to which blocks are sent.
-    #[arg(long, default_value = "http://localhost:5001")]
+    #[arg(long, env, default_value = "http://localhost:5001")]
     ipfs_node_rpc: Url,
 
     /// Value of the `Authorization` header sent to the Pinata API.
-    #[arg(long)]
+    #[arg(long, env)]
     pinata_authorization: String,
 
     /// Address this program should serve its HTTP API on.
-    #[arg(long, default_value = "0.0.0.0:8000")]
+    #[arg(long, env, default_value = "0.0.0.0:8000")]
     bind: SocketAddr,
 }
 
