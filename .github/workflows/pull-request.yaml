@@ -12,3 +12,14 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo fmt --all -- --check
       - run: cargo clippy --locked --all-targets -- -D warnings
+  release-temp-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
+      - run: sudo apt-get install --quiet -y musl-dev
+      # a
+      - run: sudo ln -s /usr/bin/x86_64-linux-musl-gcc /usr/bin/musl-gcc
+      - run: rustup target add x86_64-unknown-linux-musl
+      - run: cargo build --target=x86_64-unknown-linux-musl --release
+      - run: ls -lh ~/.cargo/target/x86_64-unknown-linux-musl/release/ipfs-block-put

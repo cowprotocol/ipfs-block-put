@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: Swatinem/rust-cache@v2
-      - run: sudo apt-get install -y musl-dev
+      - run: sudo apt-get install --quiet -y musl-dev
       - run: rustup target add x86_64-unknown-linux-musl
       - run: cargo build --target=x86_64-unknown-linux-musl --release
       - run: gh release upload $GITHUB_REF ~/.cargo/target/x86_64-unknown-linux-musl/release/ipfs-block-put
