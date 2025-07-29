@@ -1,0 +1,5 @@
+{
+  "extends": ["config:base"],
+  "schedule": ["monthly"],
+  "enabledManagers": ["github-actions"]
+}
